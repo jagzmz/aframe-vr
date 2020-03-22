@@ -1,0 +1,32 @@
+.addIcon {
+    color: red;
+    font-size: 40px;
+  }
+  
+.arrowLeft {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 40px solid blue;
+    position: relative;
+}
+.arrowRight {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 40px solid blue;
+    border-bottom: 20px solid transparent;
+    position: relative;
+}
+.controls {
+    display: flex;
+    width: 10%;
+    position: absolute;
+    flex-direction: row;
+    justify-content: space-around;
+    z-index: 1;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+}

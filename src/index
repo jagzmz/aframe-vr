@@ -1,0 +1,108 @@
+import * as React from 'react'
+import { render } from 'react-dom'
+import mainBg from './static_assets/pano-oldField.jpg'
+import './css/styles.css'
+import initializeComponents from './serviceWorker'
+function App() {
+    const [cursorPos, setCursorPos] = React.useState('0 0 -1')
+    const [cameraRef, setCameraRef] = React.useState()
+    const sceneRef = React.useRef<HTMLDivElement>();
+    initializeComponents(setCursorPos)
+    const [rot, setRot] = React.useState('0 0 0')
+    let [iconRef, setIconRef] = React.useState()
+
+    const addMarker = (cameraRef: any) => {
+        console.log(cameraRef.getAttribute('rotation'))
+        if (!sceneRef.current) return;
+        // let img = document.createElement("a-image");
+        // img.src = 'ad'
+        // img.src = "typo3conf/ext/ori_proyectos/res/images/interes.png";
+
+        // sceneRef.current.appendChild(img);
+        // let aImage = document.createElement()
+        let element = <a-image id='temp' src="https://img.icons8.com/dusk/64/000000/marker.png" />
+        sceneRef.current.appendChild(element);
+        // console.log("scene ", sceneRef.current, aImage.children);
+
+        // sceneRef.current.
+    }
+
+
+
+
+    return (
+        <div
+            style={{
+                position: 'absolute',
+                height: '100%',
+                width: '100%',
+            }}
+        >
+            <a-scene
+                ref={sceneRef}
+            >
+                <a-assets>
+                    <img alt='mainBg' id='mainBg' src={mainBg} />
+                </a-assets>
+
+                <div className="controls" >
+                    <div
+                        className="arrowLeft"
+                        onClick={e => arrowClick('left', rot, setRot)}
+                    />
+                    <div
+                        className="arrowRight"
+                        onClick={e => arrowClick('right', rot, setRot)}
+                    />
+                    <div onClick={e => addMarker(cameraRef)}>
+                        <i className='addIcon material-icons'>add</i>
+                    </div>
+                </div>
+                <a-entity
+                    ref={(r: any) => {
+                        setIconRef(r)
+                    }}
+                    id='cameraWrapper'
+                    rotation={rot}
+                >
+                    <a-camera
+                        ref={(r: any) => { setCameraRef(r) }}
+                    >
+                        <a-cursor
+                            color='#fc5203'
+                            position={cursorPos}
+                        />
+                    </a-camera>
+                </a-entity>
+                <a-sky src='#mainBg' />
+            </a-scene>
+        </div>
+    )
+}
+
+
+const arrowClick = (
+    type: string,
+    rot: any,
+    setRot: any,
+) => {
+    let diff = 50
+
+    if (type === 'right') {
+        diff *= -1
+    }
+    const xAxis = Number(rot.split(' ')[1]) + diff
+    console.log(xAxis - 50, xAxis)
+    setRot(`0 ${xAxis} 0`)
+}
+
+const cursorChange = (cursorPos: any) => {
+    console.log(cursorPos)
+}
+const styles = {
+    addMarker: {},
+
+}
+
+const rootElement = document.getElementById('root')
+render(<App />, rootElement)
